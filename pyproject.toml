@@ -1,0 +1,10 @@
+[project]
+name = "video-transcriber"
+version = "0.1.0"
+description = "video-transcriber, buinding for FastAPI"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "loguru>=0.7.3",
+    "pydantic-settings>=2.13.1",
+]
