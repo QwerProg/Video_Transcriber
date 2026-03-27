@@ -9,7 +9,7 @@ class AudioTranscriber:
     def __init__(self, model_size: str = "base"):
         logger.info(f"Loading Whisper model: {model_size}... Waitting")
 
-        self.model = WhisperModel(model_size, device="cpu", compte_type="int8")
+        self.model = WhisperModel(model_size, device="cpu", compute_type="int8")
         logger.success("Whisper model loaded successfully")
 
     async def transcribe(self, audio_path: Path) -> str:

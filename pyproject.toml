@@ -5,6 +5,8 @@ description = "video-transcriber, buinding for FastAPI"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "httpx[socks]>=0.28.1",
     "loguru>=0.7.3",
     "pydantic-settings>=2.13.1",
+    "socksio>=1.0.0",
 ]

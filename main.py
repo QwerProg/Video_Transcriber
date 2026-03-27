@@ -8,6 +8,7 @@ from loguru import logger
 
 from config import settings
 from processor import VideoProcessor
+from transcriber import transcribe_service
 
 
 @asynccontextmanager
@@ -40,6 +41,7 @@ async def health_check():
     return {"status": "ok", "message": "FastAPI is running"}
 
 
+# Upload function
 @app.post("/upload")
 async def upload_video(file: UploadFile = File(...)):
     content_type = file.content_type or ""
@@ -55,12 +57,17 @@ async def upload_video(file: UploadFile = File(...)):
         with open(video_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
+        # Extract audio
         audio_path = VideoProcessor.extract_audio(video_path)
+        # await 挂起
+        transcriber_text = await transcribe_service.transcribe(audio_path)
 
+        # Return to the client
         return {
             "message": "Video uploaded successfully",
             "video_path": str(video_path),
             "audio_path": str(audio_path),
+            "test": transcriber_text,
         }
 
     except Exception as e:
