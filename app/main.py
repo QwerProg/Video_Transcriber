@@ -6,9 +6,10 @@ from pathlib import Path
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from loguru import logger
 
-from config import settings
-from processor import VideoProcessor
-from transcriber import transcribe_service
+from app.core.config import settings
+from app.services.processor import VideoProcessor
+from app.services.summarizer import summarizer_service
+from app.services.transcriber import transcriber_service
 
 
 @asynccontextmanager
@@ -60,14 +61,17 @@ async def upload_video(file: UploadFile = File(...)):
         # Extract audio
         audio_path = VideoProcessor.extract_audio(video_path)
         # await 挂起
-        transcriber_text = await transcribe_service.transcribe(audio_path)
+        transcription_text = await transcriber_service.transcribe(audio_path)
+
+        summary_text = await summarizer_service.summarize(transcription_text)
 
         # Return to the client
         return {
             "message": "Video uploaded successfully",
             "video_path": str(video_path),
             "audio_path": str(audio_path),
-            "test": transcriber_text,
+            "text": transcription_text,
+            "summary": summary_text,
         }
 
     except Exception as e:

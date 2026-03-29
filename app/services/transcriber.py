@@ -43,4 +43,4 @@ class AudioTranscriber:
 
 
 # Instantiate a singleton transcriber for use throughout the application
-transcribe_service = AudioTranscriber()
+transcriber_service = AudioTranscriber()

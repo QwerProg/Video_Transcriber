@@ -3,8 +3,6 @@ from pathlib import Path
 from loguru import logger
 from moviepy import VideoFileClip
 
-from config import settings
-
 
 class VideoProcessor:
     @staticmethod
